@@ -112,7 +112,12 @@ def get_access_token(client_id: str, client_secret: str, refresh_token: str) -> 
         },
         timeout=REQUEST_TIMEOUT,
     )
-    resp.raise_for_status()
+    if not resp.ok:
+        print(
+            f"LinkedIn token endpoint returned {resp.status_code}: {resp.text}",
+            file=sys.stderr,
+        )
+        resp.raise_for_status()
     token = resp.json().get("access_token")
     if not token:
         raise RuntimeError("LinkedIn OAuth response missing access_token")
