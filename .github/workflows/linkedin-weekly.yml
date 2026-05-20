@@ -1,0 +1,53 @@
+name: LinkedIn posts cache — weekly pull
+
+on:
+  schedule:
+    # Mondays, 09:15 UTC (~ 05:15 ET in standard time, 04:15 ET in DST).
+    # Off-the-hour to dodge cron stampedes on the GitHub-hosted runners.
+    - cron: "15 9 * * 1"
+  workflow_dispatch: {}  # allow manual runs from the Actions tab
+
+permissions:
+  contents: write  # required to commit the updated cache back
+
+concurrency:
+  group: linkedin-weekly
+  cancel-in-progress: false
+
+jobs:
+  pull:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+          cache-dependency-path: linkedin-bridge/requirements.txt
+
+      - name: Install dependencies
+        run: pip install -r linkedin-bridge/requirements.txt
+
+      - name: Run pipeline
+        env:
+          LINKEDIN_CLIENT_ID: ${{ secrets.LINKEDIN_CLIENT_ID }}
+          LINKEDIN_CLIENT_SECRET: ${{ secrets.LINKEDIN_CLIENT_SECRET }}
+          LINKEDIN_REFRESH_TOKEN: ${{ secrets.LINKEDIN_REFRESH_TOKEN }}
+          LINKEDIN_ORG_URN: ${{ secrets.LINKEDIN_ORG_URN }}
+        run: python linkedin-bridge/pull_linkedin_posts.py
+
+      - name: Commit updated cache
+        run: |
+          git config user.name  "tidal-bot"
+          git config user.email "tidal-bot@users.noreply.github.com"
+          git add data/
+          if git diff --cached --quiet; then
+            echo "No changes to commit."
+            exit 0
+          fi
+          git commit -m "chore(linkedin): weekly cache refresh ($(date -u +%Y-%m-%d))"
+          git push
