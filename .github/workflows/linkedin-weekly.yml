@@ -2,13 +2,18 @@ name: LinkedIn posts cache — weekly pull
 
 on:
   schedule:
-    # Mondays, 09:15 UTC (~ 05:15 ET in standard time, 04:15 ET in DST).
-    # Off-the-hour to dodge cron stampedes on the GitHub-hosted runners.
-    - cron: "15 9 * * 1"
-  workflow_dispatch: {}  # allow manual runs from the Actions tab
+    # Mondays, 10:00 UTC = 6:00 AM EDT (5:00 AM EST when DST is off).
+    - cron: "0 10 * * 1"
+  workflow_dispatch:
+    inputs:
+      initial:
+        description: "Initial backfill run (fetch reposts for ALL posts)"
+        required: false
+        type: boolean
+        default: false
 
 permissions:
-  contents: write  # required to commit the updated cache back
+  contents: write
 
 concurrency:
   group: linkedin-weekly
@@ -17,7 +22,7 @@ concurrency:
 jobs:
   pull:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 180
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -38,7 +43,12 @@ jobs:
           LINKEDIN_CLIENT_SECRET: ${{ secrets.LINKEDIN_CLIENT_SECRET }}
           LINKEDIN_REFRESH_TOKEN: ${{ secrets.LINKEDIN_REFRESH_TOKEN }}
           LINKEDIN_ORG_URN: ${{ secrets.LINKEDIN_ORG_URN }}
-        run: python linkedin-bridge/pull_linkedin_posts.py
+        run: |
+          if [ "${{ inputs.initial }}" = "true" ]; then
+            python linkedin-bridge/pull_linkedin_posts.py --initial
+          else
+            python linkedin-bridge/pull_linkedin_posts.py
+          fi
 
       - name: Commit updated cache
         run: |
@@ -49,5 +59,5 @@ jobs:
             echo "No changes to commit."
             exit 0
           fi
-          git commit -m "chore(linkedin): weekly cache refresh ($(date -u +%Y-%m-%d))"
+          git commit -m "chore(linkedin): cache refresh ($(date -u +%Y-%m-%d))"
           git push
