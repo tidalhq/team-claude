@@ -49,8 +49,8 @@ import requests
 # ---------------------------------------------------------------------------
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
-CACHE_PATH = REPO_ROOT / "data" / "tidalwave_posts_cache.json"
-SNAPSHOT_DIR = REPO_ROOT / "data" / "snapshots"
+CACHE_PATH = REPO_ROOT / "linkedin-bridge" / "data" / "tidalwave_posts_cache.json"
+SNAPSHOT_DIR = REPO_ROOT / "linkedin-bridge" / "data" / "snapshots"
 
 LINKEDIN_API_BASE = "https://api.linkedin.com"
 LINKEDIN_OAUTH_URL = "https://www.linkedin.com/oauth/v2/accessToken"
