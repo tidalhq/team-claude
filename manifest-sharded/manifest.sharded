@@ -1,0 +1,57 @@
+{
+  "layout": "sharded",
+  "authority": "manifest",
+  "threshold": 2,
+  "shards": {
+    "onboarding": "articles/onboarding/",
+    "documents": "articles/documents/",
+    "verification": "articles/verification/"
+  },
+  "articles": [
+    {
+      "slug": "getting-started-solo",
+      "title": "Getting started with SOLO",
+      "path": "articles/onboarding/getting-started-solo.md",
+      "status": "done",
+      "author": "John",
+      "needs_review": 0,
+      "date": "2026-05-18"
+    },
+    {
+      "slug": "inviting-team-members",
+      "title": "Inviting team members",
+      "path": "articles/onboarding/inviting-team-members.md",
+      "status": "in-progress",
+      "author": "John",
+      "needs_review": 0,
+      "date": "2026-06-01"
+    },
+    {
+      "slug": "uploading-loan-documents",
+      "title": "Uploading loan documents",
+      "path": "articles/documents/uploading-loan-documents.md",
+      "status": "in-progress",
+      "author": "John",
+      "needs_review": 1,
+      "date": "2026-06-02"
+    },
+    {
+      "slug": "supported-file-types",
+      "title": "Supported file types",
+      "path": "articles/documents/supported-file-types.md",
+      "status": "done",
+      "author": "John",
+      "needs_review": 0,
+      "date": "2026-05-25"
+    },
+    {
+      "slug": "borrower-verification",
+      "title": "Verifying borrower identity",
+      "path": "articles/verification/borrower-verification.md",
+      "status": "not-started",
+      "author": "John",
+      "needs_review": 0,
+      "date": "2026-05-30"
+    }
+  ]
+}
