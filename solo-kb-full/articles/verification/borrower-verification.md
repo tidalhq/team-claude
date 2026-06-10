@@ -5,5 +5,4 @@ title: Verifying borrower identity
 
 # Verifying borrower identity
 
-Placeholder body for the sharded base. Status/metadata live in manifest.json
-(authority: manifest); this file carries only its slug as a stable handle.
+Write-path connectivity test — Zapier→GitHub round trip confirmed on 2026-06-10.
