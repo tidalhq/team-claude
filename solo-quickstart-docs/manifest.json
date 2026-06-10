@@ -1,0 +1,10 @@
+{
+  "layout": "flat",
+  "authority": "frontmatter",
+  "threshold": 2,
+  "articles": [
+    { "slug": "getting-started-solo", "title": "Getting started with SOLO", "path": "articles/getting-started-solo.md", "status": "done", "author": "John", "needs_review": 0, "date": "2026-05-18" },
+    { "slug": "uploading-loan-documents", "title": "Uploading loan documents", "path": "articles/uploading-loan-documents.md", "status": "in-progress", "author": "John", "needs_review": 1, "date": "2026-06-02" },
+    { "slug": "borrower-verification", "title": "Verifying borrower identity", "path": "articles/borrower-verification.md", "status": "not-started", "author": "John", "needs_review": 0, "date": "2026-05-30" }
+  ]
+}
