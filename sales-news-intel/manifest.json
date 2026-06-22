@@ -1,0 +1,12 @@
+{
+  "layout": "sharded",
+  "authority": "manifest",
+  "threshold": 2,
+  "shards": {
+    "competitors": "articles/competitors/",
+    "industry": "articles/industry/",
+    "fintech": "articles/fintech/",
+    "regulatory": "articles/regulatory/"
+  },
+  "articles": []
+}
